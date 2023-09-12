@@ -1,4 +1,3 @@
-package main.contactiq;
 import java.util.Scanner;
 import java.util.ArrayList;
 
