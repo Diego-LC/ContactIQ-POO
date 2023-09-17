@@ -1,14 +1,26 @@
+package main;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class ContactIQ {
+public class ContactIQApp {
     private String nombre;
     private String correo;
     private ArrayList<String> contactos = new ArrayList<>();
     private ArrayList<String> favoritos = new ArrayList<>();
+    public ArrayList<String> getContactos() {
+        return contactos;
+    }
+
+    public void setContactos(ArrayList<String> contactos) {
+        this.contactos = contactos;
+    }
 
     public static void main(String[] args) {
-        ContactIQ app = new ContactIQ();
+        mostrarMenu();
+    }
+    private static void mostrarMenu(){
+        ContactIQApp app = new ContactIQApp();
         Scanner scanner = new Scanner(System.in);
         int opcion = 0;
         do {
@@ -38,6 +50,7 @@ class ContactIQ {
                     System.out.println("Opción no válida. Por favor, seleccione una opción válida.");
             }
         } while (opcion != 6);
+
         scanner.close();
     }
 
@@ -51,7 +64,7 @@ class ContactIQ {
         System.out.print("Seleccione una opción: ");
     }
 
-    private static int leerOpcion(Scanner scanner) {
+    public static int leerOpcion(Scanner scanner) {
         try {
             return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {
@@ -117,7 +130,7 @@ class ContactIQ {
         }
     }
 
-    private void editarContacto(int numero, Scanner scanner) {
+    public void editarContacto(int numero, Scanner scanner) {
         System.out.print("Nuevo nombre del contacto: ");
         String nuevoNombre = scanner.nextLine();
         contactos.set(numero, nuevoNombre);
