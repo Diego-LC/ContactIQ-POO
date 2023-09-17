@@ -1,171 +1,160 @@
 import java.util.ArrayList;
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 class ContactIQ {
-    private String nombre;
-    private String correo;
     private ArrayList<String> contactos = new ArrayList<>();
     private ArrayList<String> favoritos = new ArrayList<>();
 
     public static void main(String[] args) {
-        ContactIQ app = new ContactIQ();
-        Scanner scanner = new Scanner(System.in);
-        int opcion = 0;
-        do {
-            System.out.println("\n** Menú Principal **");
-            mostrarOpciones();
-            opcion = leerOpcion(scanner);
-            switch (opcion) {
-                case 1:
-                    app.verListaContactos(scanner);
-                    break;
-                case 2:
-                    app.agregarContacto(scanner);
-                    break;
-                case 3:
-                    app.verFavoritos();
-                    break;
-                case 4:
-                    app.editarPerfil(scanner);
-                    break;
-                case 5:
-                    app.mostrarAyuda();
-                    break;
-                case 6:
-                    System.out.println("Saliendo de la aplicación...");
-                    break;
-                default:
-                    System.out.println("Opción no válida. Por favor, seleccione una opción válida.");
-            }
-        } while (opcion != 6);
-        scanner.close();
+        SwingUtilities.invokeLater(() -> {
+            ContactIQ app = new ContactIQ();
+            app.iniciarApp();
+        });
     }
 
-    private static void mostrarOpciones() {
-        System.out.println("1. Ver Lista de Contactos");
-        System.out.println("2. Añadir Contacto");
-        System.out.println("3. Contactos Favoritos");
-        System.out.println("4. Configuración");
-        System.out.println("5. Ayuda");
-        System.out.println("6. Salir");
-        System.out.print("Seleccione una opción: ");
+    private void iniciarApp() {
+        crearInterfazUsuario();
     }
 
-    private static int leerOpcion(Scanner scanner) {
-        try {
-            return Integer.parseInt(scanner.nextLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Por favor, ingrese un número válido.");
-            return -1; // Valor inválido para repetir el bucle
+    private void crearInterfazUsuario() {
+        JFrame frame = new JFrame("ContactIQ");
+        configurarVentanaPrincipal(frame);
+        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+        agregarBotones(panel);
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+
+    private void configurarVentanaPrincipal(JFrame frame) {
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+    }
+
+    private void agregarBotones(JPanel panel) {
+        String[] buttonLabels = {
+                "Ver Lista de Contactos",
+                "Añadir Contacto",
+                "Contactos Favoritos",
+                "Configuración",
+                "Ayuda",
+                "Salir"
+        };
+
+        for (String label : buttonLabels) {
+            JButton button = new JButton(label);
+            panel.add(button);
+            button.addActionListener(this::manejarAccionBoton);
         }
     }
 
-    private void verListaContactos(Scanner scanner) {
-        System.out.println("\n** Lista de Contactos **");
-        for (int i = 0; i < contactos.size(); i++) {
-            System.out.println((i + 1) + ". " + contactos.get(i));
-        }
-        int opcion = 0;
-        do {
-            System.out.println("\nSubmenú:");
-            System.out.println("1. Seleccionar Contacto");
-            System.out.println("2. Buscar Contacto");
-            System.out.println("3. Volver al Menú Principal");
-            System.out.print("Seleccione una opción: ");
-            opcion = leerOpcion(scanner);
-            switch (opcion) {
-                case 1:
-                    seleccionarContacto(scanner);
-                    break;
-                case 2:
-                    buscarContacto(scanner);
-                    break;
-                case 3:
-                    return;
-                default:
-                    System.out.println("Opción no válida. Por favor, seleccione una opción válida.");
-            }
-        } while (opcion != 3);
-    }
+    private void manejarAccionBoton(ActionEvent e) {
+        String actionCommand = e.getActionCommand();
 
-    private void seleccionarContacto(Scanner scanner) {
-        System.out.print("Ingrese el número de contacto: ");
-        int numero = leerOpcion(scanner) - 1;
-        if (numero >= 0 && numero < contactos.size()) {
-            String contacto = contactos.get(numero);
-            System.out.println("\nDetalle de Contacto:");
-            System.out.println("Nombre: " + contacto);
-            int opcion = 0;
-            do {
-                System.out.println("\nSubmenú:");
-                System.out.println("1. Editar Contacto");
-                System.out.println("2. Volver al Menú Principal");
-                System.out.print("Seleccione una opción: ");
-                opcion = leerOpcion(scanner);
-                switch (opcion) {
-                    case 1:
-                        editarContacto(numero, scanner);
-                        break;
-                    case 2:
-                        return;
-                    default:
-                        System.out.println("Opción no válida. Por favor, seleccione una opción válida.");
-                }
-            } while (opcion != 2);
-        } else {
-            System.out.println("Número de contacto no válido.");
-        }
-    }
-
-    private void editarContacto(int numero, Scanner scanner) {
-        System.out.print("Nuevo nombre del contacto: ");
-        String nuevoNombre = scanner.nextLine();
-        contactos.set(numero, nuevoNombre);
-        System.out.println("Contacto actualizado.");
-    }
-
-    private void buscarContacto(Scanner scanner) {
-        System.out.print("Ingrese el nombre del contacto a buscar: ");
-        String nombre = scanner.nextLine();
-        boolean encontrado = false;
-        for (String contacto : contactos) {
-            if (contacto.equalsIgnoreCase(nombre)) {
-                System.out.println("Contacto encontrado: " + contacto);
-                encontrado = true;
+        switch (actionCommand) {
+            case "Ver Lista de Contactos":
+                manejarVerListaContactos();
                 break;
-            }
-        }
-        if (!encontrado) {
-            System.out.println("Contacto no encontrado.");
+            case "Añadir Contacto":
+                manejarAgregarContacto();
+                break;
+            case "Contactos Favoritos":
+                manejarMostrarFavoritos();
+                break;
+            case "Configuración":
+                manejarEditarPerfil();
+                break;
+            case "Ayuda":
+                manejarMostrarAyuda();
+                break;
+            case "Salir":
+                manejarSalir();
+                break;
         }
     }
 
-    private void agregarContacto(Scanner scanner) {
-        System.out.println("\n** Agregar Contacto **");
-        System.out.print("Nombre: ");
-        String nombre = scanner.nextLine();
-        contactos.add(nombre);
-        System.out.println("Contacto agregado con éxito.");
+    private void manejarVerListaContactos() {
+        JTextArea listaContactosTextArea = crearListaContactosTextArea();
+        JScrollPane scrollPane = new JScrollPane(listaContactosTextArea);
+        mostrarVentanaEmergente(scrollPane, "Lista de Contactos");
     }
 
-    private void verFavoritos() {
-        System.out.println("\n** Contactos Favoritos **");
+    private JTextArea crearListaContactosTextArea() {
+        JTextArea listaContactosTextArea = new JTextArea();
+        listaContactosTextArea.setEditable(false);
+
+        for (int i = 0; i < contactos.size(); i++) {
+            listaContactosTextArea.append((i + 1) + ". " + contactos.get(i) + "\n");
+        }
+
+        return listaContactosTextArea;
+    }
+
+    private void manejarAgregarContacto() {
+        String nombre = JOptionPane.showInputDialog(null, "Ingrese el nombre del contacto:");
+
+        if (nombre != null && !nombre.isEmpty()) {
+            contactos.add(nombre);
+            preguntarAgregarFavorito(nombre);
+            JOptionPane.showMessageDialog(null, "Contacto agregado con éxito.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Nombre de contacto no válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void preguntarAgregarFavorito(String nombre) {
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Desea agregar este contacto a favoritos?", "Agregar a Favoritos", JOptionPane.YES_NO_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
+            agregarFavorito(nombre);
+        }
+    }
+
+    private void agregarFavorito(String nombre) {
+        favoritos.add(nombre);
+    }
+
+    private void manejarMostrarFavoritos() {
+        JTextArea favoritosTextArea = crearFavoritosTextArea();
+        JScrollPane scrollPane = new JScrollPane(favoritosTextArea);
+        mostrarVentanaEmergente(scrollPane, "Contactos Favoritos");
+    }
+
+    private JTextArea crearFavoritosTextArea() {
+        JTextArea favoritosTextArea = new JTextArea();
+        favoritosTextArea.setEditable(false);
+
         for (String favorito : favoritos) {
-            System.out.println(favorito);
+            favoritosTextArea.append(favorito + "\n");
+        }
+
+        return favoritosTextArea;
+    }
+
+    private void manejarEditarPerfil() {
+        String nuevoNombre = JOptionPane.showInputDialog(null, "Nuevo nombre:");
+        String nuevoCorreo = JOptionPane.showInputDialog(null, "Nuevo correo:");
+
+        if (nuevoNombre != null && nuevoCorreo != null) {
+            JOptionPane.showMessageDialog(null, "Perfil actualizado con éxito.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Datos no válidos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void editarPerfil(Scanner scanner) {
-        System.out.println("\n** Editar Perfil **");
-        System.out.print("Nuevo nombre: ");
-        this.nombre = scanner.nextLine();
-        System.out.print("Nuevo correo: ");
-        this.correo = scanner.nextLine();
-        System.out.println("Perfil actualizado.");
+    private void manejarMostrarAyuda() {
+        JOptionPane.showMessageDialog(null, "** Ayuda **\nProporciona información y asistencia sobre el uso de la aplicación.", "Ayuda", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void mostrarAyuda() {
-        System.out.println("\n** Ayuda **");
-        // Proporciona información y asistencia sobre el uso de la aplicación.
+    private void manejarSalir() {
+        System.exit(0);
+    }
+
+    private void mostrarVentanaEmergente(Component component, String title) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(component, BorderLayout.CENTER);
+
+        JOptionPane.showMessageDialog(null, panel, title, JOptionPane.PLAIN_MESSAGE);
     }
 }
