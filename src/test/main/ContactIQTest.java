@@ -1,4 +1,4 @@
-import main.ContactIQApp;
+package main;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -43,7 +43,6 @@ public class ContactIQTest {
         ArrayList<String> contactos = new ArrayList<>();
         contactos.add("Contacto1");
         contactos.add("Contacto2");
-        app.setContactos(contactos);
 
         // Simulamos la entrada del usuario
         String input = "NuevoNombre\n";
