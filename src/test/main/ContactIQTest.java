@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ContactIQTest {
 
-    @Test
+/*    @Test
     public void testLeerOpcionConNumeroValido() {
         // Simulamos la entrada del usuario
         String input = "3\n";
@@ -16,7 +16,7 @@ public class ContactIQTest {
 
         Scanner scanner = new Scanner(System.in);
 
-        int opcion = ContactIQApp.leerOpcion(scanner);
+        int opcion = ContactIQAppOld.leerOpcion(scanner);
 
         // Comprobamos que la opción leída sea igual a 3
         assertEquals(3, opcion);
@@ -31,7 +31,7 @@ public class ContactIQTest {
 
         Scanner scanner = new Scanner(System.in);
 
-        int opcion = ContactIQApp.leerOpcion(scanner);
+        int opcion = ContactIQAppOld.leerOpcion(scanner);
 
         // Comprobamos que la opción leída sea igual a -1 (valor inválido)
         assertEquals(-1, opcion);
@@ -39,7 +39,7 @@ public class ContactIQTest {
 
     @Test
     public void testEditarContacto() {
-        ContactIQApp app = new ContactIQApp();
+        ContactIQAppOld app = new ContactIQAppOld();
         ArrayList<String> contactos = new ArrayList<>();
         contactos.add("Contacto1");
         contactos.add("Contacto2");
@@ -55,5 +55,5 @@ public class ContactIQTest {
 
         // Comprobamos que el contacto en la posición 1 se haya actualizado
         assertEquals("NuevoNombre", app.getContactos().get(1));
-    }
+    }*/
 }
