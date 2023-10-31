@@ -1,10 +1,15 @@
 package main;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ContactIQApp {
-	private final PerfilUsuario perfilUsuario = new PerfilUsuario();
-	private final ContactosManager contactosManager = new ContactosManager();
-	private final Menu menu = new Menu();
+	private ArrayList<Contacto> contacto = new ArrayList<Contacto>();
+	private Configuracion configuracion = new Configuracion();
+	private ContactosManager contactosManager = new ContactosManager();
+	private Menu menu = new Menu();
 
 	public static void main (String[] args) {
 		ContactIQApp contactIQApp = new ContactIQApp();
@@ -20,7 +25,7 @@ public class ContactIQApp {
 			opcion = this.menu.leerOpcion(scanner);
 			switch (opcion) {
 				case 1:
-					this.contactosManager.mostrarListaContactos();
+					this.contactosManager.verListaContactos();
 					verListaContactosSubmenu(scanner);
 					break;
 				case 2:
@@ -30,7 +35,7 @@ public class ContactIQApp {
 					this.verFavoritos();
 					break;
 				case 4:
-					this.menuConfiguracion(scanner);
+					this.menuConfiguracion();
 					break;
 				case 5:
 					this.menu.mostrarMenuAyuda();
@@ -39,7 +44,7 @@ public class ContactIQApp {
 					System.out.println("Saliendo de la aplicación...");
 					break;
 				default:
-					this.menu.mostrarMensajeError();
+					System.out.println("Opción no válida. Por favor, seleccione una opción válida.");
 			}
 		} while (opcion != 6);
 
@@ -49,7 +54,7 @@ public class ContactIQApp {
 	void verListaContactosSubmenu(Scanner scanner){
 		int opcion = 0;
 		do {
-			this.menu.mostarSubMenulistaContactos();
+			this.menu.listaContactosSubMenu();
 			opcion = this.menu.leerOpcion(scanner);
 			switch (opcion) {
 				case 1:
@@ -58,51 +63,48 @@ public class ContactIQApp {
 				case 2:
 					System.out.print("Ingrese el nombre del contacto a buscar: ");
 					String frase = scanner.nextLine().toLowerCase();
-					this.contactosManager.mostrarListaContactosEncontrados(this.contactosManager.buscarNombreContacto(frase));
+					this.menu.mostrarListaContactosEncontrados(this.contactosManager.buscarNombreContacto(frase));
 					break;
 				case 3:
 					return;
 				default:
-					this.menu.mostrarMensajeError();
+					System.out.println("Opción no válida. Por favor, seleccione una opción válida.");
 			}
 		} while (opcion != 3);
 	}
 
 	void seleccionarContacto(Scanner scanner) {
-		System.out.print("Ingrese el número de selección: ");
+		System.out.print("Ingrese el número de contacto para seleccionarlo: ");
 		int opcion = this.menu.leerOpcion(scanner) - 1;
 		if (opcion >= 0 && opcion < this.contactosManager.getContactos().size()) {
 			Contacto contacto = this.contactosManager.getContactos().get(opcion);
-			this.contactosManager.mostrarDetalleContacto(contacto);
-			seleccionarContactoSubMenu(opcion, scanner);
+			this.contactosManager.mostrarContacto(contacto);
+			seleccionarContactoSubMenuEditar(opcion, scanner);
 		} else {
 			if (this.contactosManager.getContactos().isEmpty()){
 				System.out.println("---No hay contactos en la lista---");
 			}else{
-				System.out.println("Número de selección no válido.");
+				System.out.println("Número de contacto no válido.");
 			}
 		}
 	}
 
-	void seleccionarContactoSubMenu(int opcion, Scanner scanner) {
+	void seleccionarContactoSubMenuEditar(int opcion, Scanner scanner) {
 		do {
 			System.out.println("\nSubmenú:");
 			System.out.println("1. Editar Contacto");
-			System.out.println("2. Eliminar Contacto");
-			System.out.println("3. Volver al Menú Principal");
+			System.out.println("2. Volver al Menú Principal");
 			System.out.print("Seleccione una opción: ");
 			opcion = this.menu.leerOpcion(scanner);
-			Contacto contacto = this.contactosManager.getContactos().get(opcion);
 			switch (opcion) {
 				case 1:
+					Contacto contacto = this.contactosManager.getContactos().get(opcion);
 					editarContacto(contacto, scanner);
 					break;
 				case 2:
-					this.contactosManager.eliminarContacto(contacto);
-				case 3:
 					return;
 				default:
-					this.menu.mostrarMensajeError();
+					System.out.println("Opción no válida. Por favor, seleccione una opción válida.");
 			}
 		} while (opcion != 2);
 	}
@@ -115,50 +117,30 @@ public class ContactIQApp {
 		String nuevoNumero = scanner.nextLine();
 		System.out.print("Nuevo correo del contacto: ");
 		String nuevoCorreo = scanner.nextLine();
-		boolean esFavorito = this.menu.mostrarEsFavoritoOpcion(scanner);
+		boolean esFavorito = this.menu.mostrarEsOpcionFavorito(scanner);
 
 		this.contactosManager.editarContacto(contacto, nuevoNombre, nuevoNumero, nuevoCorreo, esFavorito);
 		System.out.println("Contacto actualizado.");
 	}
 
-	public void agregarContacto(Scanner scanner) {
-		System.out.println("\n** Agregar nuevo contacto **");
-		Contacto contacto = new Contacto();
-		System.out.print("Nombre: ");
-		String nombre = scanner.nextLine();
-		System.out.print("Número: ");
-		String numero = scanner.nextLine();
-		System.out.print("Correo: ");
-		String correo = scanner.nextLine();
-		String nuevoCorreo = scanner.nextLine();
-		boolean esFavorito = this.menu.mostrarEsFavoritoOpcion(scanner);
 
-		this.contactosManager.editarContacto(contacto, nombre, numero, correo, esFavorito);
-		System.out.println("Nuevo contacto creado.");
+	public void agregarContacto(Scanner scanner) {
+		throw new UnsupportedOperationException();
 	}
 
 	public void verFavoritos() {
-		this.contactosManager.mostrarListaContactosEncontrados(this.contactosManager.getContactosFavoritos());
+		throw new UnsupportedOperationException();
 	}
 
-	public void menuConfiguracion(Scanner sc) {
-		this.menu.mostrarMenuConfiguracion();
-		int opcion = this.menu.leerOpcion(sc);
-		do {
-			if (opcion == 1){
-				editarPerfil(sc);
-			}else {
-				return;
-			}
-		} while (true);
+	public void menuConfiguracion() {
+		throw new UnsupportedOperationException();
 	}
 
 	public void editarPerfil(Scanner scanner) {
-		System.out.println("\n** Editar Perfil **");
-		System.out.print("Nuevo nombre: ");
-		this.perfilUsuario.setNombreUsuario(scanner.nextLine());
-		System.out.print("Nuevo correo: ");
-		this.perfilUsuario.setCorreoUsuario(scanner.nextLine());
-		System.out.println("Perfil actualizado.");
+		throw new UnsupportedOperationException();
+	}
+
+	public void mostrarAyuda() {
+		throw new UnsupportedOperationException();
 	}
 }
