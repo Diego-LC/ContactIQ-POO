@@ -1,5 +1,4 @@
 package main;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -15,7 +14,7 @@ public class Menu {
         System.out.println("6. Salir");
         System.out.print("Seleccione una opción: ");
 	}
-	void listaContactosSubMenu(){
+	void mostarSubMenulistaContactos(){
 		System.out.println("\nSubmenú:");
 		System.out.println("1. Seleccionar Contacto");
 		System.out.println("2. Buscar Contacto");
@@ -23,22 +22,10 @@ public class Menu {
 		System.out.print("Seleccione una opción: ");
 	}
 
-	void mostrarListaContactosEncontrados(ArrayList<Contacto> contactos){
-		System.out.println("\n** Contactos Encontrados **");
-		int i = 0;
-		while (i < contactos.size()) {
-			System.out.println((i + 1) + ". " + contactos.get(i).getNombreContacto());
-			i++;
-		}
-	}
-
-	public void mostrarMenuContacto() {
-	}
-
-	public void mostrarMenuConfiguracion() {
-	}
-
-	public void mostrarMenuAyuda() {
+	void mostrarMenuConfiguracion() {
+		System.out.println("\n** Seleccione una opción: **");
+		System.out.println("1. Editar perfil");
+		System.out.println("2. Volver al menú principal");
 	}
 
 	int leerOpcion(Scanner scanner) {
@@ -50,7 +37,7 @@ public class Menu {
         }
 	}
 
-	public boolean mostrarEsOpcionFavorito(Scanner scanner){
+	boolean mostrarEsFavoritoOpcion(Scanner scanner){
 		System.out.print("¿Añadir a favoritos? ('s' para sí, cualquier otra tecla para no): ");
 		String esFavorito = scanner.nextLine();
 		if (Objects.equals(esFavorito, "s")){
@@ -62,7 +49,12 @@ public class Menu {
 		}
 	}
 
-	public void mostrarMensajeError(String mensaje) {
+	void mostrarMensajeError() {
+		System.out.println("Opción no válida. Por favor, seleccione una opción válida.");
 	}
 
+	void mostrarMenuAyuda() {
+		System.out.println("\n** Ayuda **");
+		// Proporciona información y asistencia sobre el uso de la aplicación.
+	}
 }
