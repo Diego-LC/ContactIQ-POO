@@ -25,7 +25,8 @@ public class Menu {
 	void mostrarMenuConfiguracion() {
 		System.out.println("\n** Seleccione una opción: **");
 		System.out.println("1. Editar perfil");
-		System.out.println("2. Volver al menú principal");
+		System.out.println("2. Guardar contactos");
+		System.out.println("3. Volver al menú principal");
 	}
 
 	int leerOpcion(Scanner scanner) {

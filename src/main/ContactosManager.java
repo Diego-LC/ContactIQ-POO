@@ -2,7 +2,10 @@ package main;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import com.google.gson.Gson;
 
 public class ContactosManager {
     private final ArrayList<Contacto> contactos = new ArrayList<Contacto>();
@@ -48,7 +51,7 @@ public class ContactosManager {
         ArrayList<Contacto> contactosEncontrados = new ArrayList<Contacto>();
 
         for (Contacto contacto : this.contactos) {
-            if (contacto.getNombreContacto().equals(nombreContacto)) {
+            if (contacto.getNombreContacto().contains(nombreContacto)) {
                 contactosEncontrados.add(contacto);
             }
         }
@@ -61,7 +64,7 @@ public class ContactosManager {
 		ArrayList<Contacto> contactosEncontrados = new ArrayList<Contacto>();
 
 		for (Contacto contacto : this.contactos) {
-			if (contacto.getNumeroContacto().equals(numeroContacto)) {
+			if (contacto.getNumeroContacto().contains(numeroContacto)) {
 				contactosEncontrados.add(contacto);
 			}
 		}
@@ -102,5 +105,18 @@ public class ContactosManager {
 
     boolean existeContacto(Contacto contacto) {
         return this.contactos.contains(contacto);
+    }
+
+    public void guardarContactos() {
+        //Guarda los contactos a un json en el almacenamiento del dispositivo
+        Gson gson = new Gson();
+        String json = gson.toJson(this.contactos);
+        try {
+            FileWriter archivo = new FileWriter("contactos.json");
+            archivo.write(json);
+            archivo.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

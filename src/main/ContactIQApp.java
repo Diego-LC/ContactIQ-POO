@@ -74,7 +74,7 @@ public class ContactIQApp {
 		if (opcion >= 0 && opcion < this.contactosManager.getContactos().size()) {
 			Contacto contacto = this.contactosManager.getContactos().get(opcion);
 			this.contactosManager.mostrarDetalleContacto(contacto);
-			seleccionarContactoSubMenu(opcion, scanner);
+			seleccionarContactoSubMenu(opcion, scanner, contacto);
 		} else {
 			if (this.contactosManager.getContactos().isEmpty()){
 				System.out.println("---No hay contactos en la lista---");
@@ -84,7 +84,7 @@ public class ContactIQApp {
 		}
 	}
 
-	void seleccionarContactoSubMenu(int opcion, Scanner scanner) {
+	void seleccionarContactoSubMenu(int opcion, Scanner scanner, Contacto contacto) {
 		do {
 			System.out.println("\nSubmenú:");
 			System.out.println("1. Editar Contacto");
@@ -92,7 +92,6 @@ public class ContactIQApp {
 			System.out.println("3. Volver al Menú Principal");
 			System.out.print("Seleccione una opción: ");
 			opcion = this.menu.leerOpcion(scanner);
-			Contacto contacto = this.contactosManager.getContactos().get(opcion);
 			switch (opcion) {
 				case 1:
 					editarContacto(contacto, scanner);
@@ -147,6 +146,11 @@ public class ContactIQApp {
 		do {
 			if (opcion == 1){
 				editarPerfil(sc);
+			}
+			if (opcion == 2){
+				//Guarda los contactos a un json en el almacenamiento del dispositivo
+				this.contactosManager.guardarContactos();
+				System.out.println("Contactos guardados.");
 			}else {
 				return;
 			}
