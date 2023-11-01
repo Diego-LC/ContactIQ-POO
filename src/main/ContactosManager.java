@@ -6,6 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.io.FileReader;
+import java.lang.reflect.Type;
 
 public class ContactosManager {
     private final ArrayList<Contacto> contactos = new ArrayList<Contacto>();
@@ -119,4 +122,31 @@ public class ContactosManager {
             e.printStackTrace();
         }
     }
+
+public void importarContactos() {
+    Gson gson = new Gson();
+    try {
+        FileReader archivo = new FileReader("contactos.json");
+        Type tipoListaContactos = new TypeToken<ArrayList<Contacto>>(){}.getType();
+        ArrayList<Contacto> nuevosContactos = gson.fromJson(archivo, tipoListaContactos);
+        archivo.close();
+
+        for (Contacto nuevoContacto : nuevosContactos) {
+            boolean existe = false;
+            for (Contacto contactoExistente : contactos) {
+                if (contactoExistente.getNombreContacto().equals(nuevoContacto.getNombreContacto()) &&
+                    contactoExistente.getNumeroContacto().equals(nuevoContacto.getNumeroContacto()) &&
+                    contactoExistente.getCorreoContacto().equals(nuevoContacto.getCorreoContacto())) {
+                    existe = true;
+                    break;
+                }
+            }
+            if (!existe) {
+                contactos.add(nuevoContacto);
+            }
+        }
+    } catch (IOException e) {
+        System.out.println("Error al importar los contactos: " + e.getMessage());
+    }
+}
 }

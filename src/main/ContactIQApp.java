@@ -151,7 +151,12 @@ public class ContactIQApp {
 				//Guarda los contactos a un json en el almacenamiento del dispositivo
 				this.contactosManager.guardarContactos();
 				System.out.println("Contactos guardados.");
-			}else {
+			}
+			if (opcion == 3){
+				this.contactosManager.importarContactos();
+				System.out.println("Contactos correctamente importados");
+			}
+			else {
 				return;
 			}
 		} while (true);
