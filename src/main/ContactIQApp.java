@@ -141,9 +141,9 @@ public class ContactIQApp {
 	}
 
 	public void menuConfiguracion(Scanner sc) {
-		this.menu.mostrarMenuConfiguracion();
-		int opcion = this.menu.leerOpcion(sc);
 		do {
+			this.menu.mostrarMenuConfiguracion();
+			int opcion = this.menu.leerOpcion(sc);
 			if (opcion == 1){
 				editarPerfil(sc);
 			}
