@@ -1,7 +1,6 @@
 # ContactIQ
 
 [![Rama principal](https://github.com/Diego-LC/ContactIQ-POO/tree/main)](https://github.com/Diego-LC/ContactIQ-POO/tree/main)
-[![Desarrollo](https://github.com/Diego-LC/ContactIQ-POO/tree/BranchDiego)](https://codecov.io/gh/akshaybabloo/ContactIQ)  
 
 >ContactIQ es un gestor de contactos inteligente escrito en Java. Permite a los usuarios agregar, actualizar, eliminar y recuperar contactos. El proyecto incluye pruebas JUnit para garantizar la funcionalidad de las clases.
 
@@ -35,3 +34,4 @@ mvn test
 ContactIQ usa las siguientes dependencias:
 
 - JUnit 5.7.2
+- Gson 2.8.6 
