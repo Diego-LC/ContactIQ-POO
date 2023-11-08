@@ -1,44 +1,30 @@
 # ContactIQ
 
-[![Build Status](https://travis-ci.com/akshaybabloo/ContactIQ.svg?branch=master)](https://travis-ci.com/akshaybabloo/ContactIQ)
-[![codecov](https://codecov.io/gh/akshaybabloo/ContactIQ/branch/master/graph/badge.svg?token=ZQZQZQZQZQ)](https://codecov.io/gh/akshaybabloo/ContactIQ)
+[![Rama principal](https://github.com/Diego-LC/ContactIQ-POO/tree/main)](https://github.com/Diego-LC/ContactIQ-POO/tree/main)
+[![Desarrollo](https://github.com/Diego-LC/ContactIQ-POO/tree/BranchDiego)](https://codecov.io/gh/akshaybabloo/ContactIQ)  
 
->ContactIQ es una aplicación de gestión de contactos escrita en Java con una interfaz gráfica de usuario (GUI). Esta aplicación te permite administrar tu lista de contactos de manera sencilla y eficiente. A continuación, se describen las principales funcionalidades de ContactIQ:
+>ContactIQ es un gestor de contactos inteligente escrito en Java. Permite a los usuarios agregar, actualizar, eliminar y recuperar contactos. El proyecto incluye pruebas JUnit para garantizar la funcionalidad de las clases.
 
-## Funcionalidades Principales
+## Estructura del proyecto
 
-### Ver Lista de Contactos
-- Al hacer clic en "Ver Lista de Contactos", podrás ver una lista de tus contactos almacenados en la aplicación.
-- Los contactos se enumeran junto con su nombre.
+El proyecto posee los siguientes archivos:
 
-### Añadir Contacto
-- Utiliza la opción "Añadir Contacto" para agregar un nuevo contacto a tu lista.
-- Simplemente ingresa el nombre del contacto en el cuadro de diálogo que aparece.
+- `src/main/java/com/contactiq/model/Contactiq.java`: Este archivo exporta una clase  `Contacto`  que representa un contacto con propiedades como nombre, correo electrónico y número de teléfono.
+- `src/test/`: Este directorio contiene pruebas JUnit para la clase  `Contactiq` .
+- `pom.xml`: Este archivo es el archivo de configuración para Maven. Enumera las dependencias y complementos para el proyecto.
+- `README.md`: Este archivo contiene información sobre el proyecto.
 
-### Contactos Favoritos
-- Cuando agregas un nuevo contacto, se te pregunta si deseas agregarlo a tus "Contactos Favoritos".
-- Los "Contactos Favoritos" se almacenan por separado y se pueden ver en cualquier momento.
-- Puedes marcar un contacto como favorito y luego identificarlo fácilmente en tu lista.
-
-### Configuración
-- La opción "Configuración" te permite actualizar tu perfil.
-- Puedes cambiar tu nombre y correo electrónico si es necesario.
-
-### Ayuda
-- La sección de "Ayuda" proporciona información y asistencia sobre el uso de la aplicación.
-
-### Salir
-- Cierra la aplicación cuando haces clic en "Salir".
 ## Uso
-Para utilizar ContactIQ, sigue estos pasos:
 
-1. Ejecuta la aplicación.
-2. Utiliza las diferentes opciones del menú para administrar tus contactos.
+To use ContactIQ, simply create an instance of the `ContactManager` class and call its methods to add, update, delete, or retrieve contacts.
 
+```java
+ContactManager contactManager = new ContactManager();
+Contact contact = new Contact("John Doe", "johndoe@example.com", "555-1234");
+contactManager.addContact(contact);
+```
 
 ## Testing
-
-To run the JUnit tests, use the following command:
 
 ```
 mvn test
@@ -46,6 +32,6 @@ mvn test
 
 ## Dependencies
 
-ContactIQ uses the following dependencies:
+ContactIQ usa las siguientes dependencias:
 
 - JUnit 5.7.2
