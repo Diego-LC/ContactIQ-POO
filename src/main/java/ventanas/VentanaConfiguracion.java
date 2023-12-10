@@ -5,6 +5,7 @@ import controlador.Controlador;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 public class VentanaConfiguracion extends VentanaGeneral {
 
@@ -71,9 +72,13 @@ public class VentanaConfiguracion extends VentanaGeneral {
             this.dispose();
         }if (e.getSource() == this.botonExportarAExcel) {
             this.controlador.exportarContactosAExcel();
+            //ventana de confirmacion
+            JOptionPane.showMessageDialog(this, "Contactos exportados a Excel");
 
         }if (e.getSource() == this.botonImportarDesdeExcel) {
             this.controlador.importarContactosDesdeExcel();
+            //ventana de confirmacion
+            JOptionPane.showMessageDialog(this, "Contactos importados desde Excel");
 
         }if (e.getSource() == this.botonCompartirContactoQR) {
             this.controlador.generarQr();

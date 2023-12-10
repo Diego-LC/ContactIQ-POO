@@ -48,8 +48,11 @@ public class Controlador {
 		gestor.generarQr(this.usuario.toString(), "qr.png");
 	}
 	public void exportarContactosAExcel() {
+		GestorDeDatos gestor = new GestorDeDatos();
+		gestor.exportarContactosAExcel("contactos.csv","contactos.xls");
 	}
     public void importarContactosDesdeExcel() {
+		//TODO: implementar a futuro
     }
 
 }
