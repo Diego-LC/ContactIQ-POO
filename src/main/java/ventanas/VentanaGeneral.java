@@ -13,7 +13,7 @@ public class VentanaGeneral extends JFrame implements ActionListener{
         super(nombre);
         super.setVisible(true);
         super.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        super.setLocationRelativeTo(null);
+        super.setLocation(100,200);
         super.setResizable(false);
         this.setLayout(null);
         this.fuenteTitulo = new Font("Calibri", Font.BOLD | Font.ITALIC, 20);

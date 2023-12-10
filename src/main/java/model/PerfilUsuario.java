@@ -16,7 +16,7 @@ public class PerfilUsuario extends Persona {
 
 	public void setContacto(Contacto contacto) {
 		if (existeContacto(contacto)) {
-			editarContacto(contacto);
+			editarContacto(contacto, contacto.getNumeroTelefono());
 		} else {
 			this.contactos.add(contacto);
 		}
@@ -32,12 +32,20 @@ public class PerfilUsuario extends Persona {
 		}
 	}
 
+	public void eliminarContacto(String numero) {
+		for (Contacto c : this.contactos) {
+			if (c.getNumeroTelefono().equals(numero)) {
+				this.contactos.remove(c);
+				return;
+			}
+		}
+	}
+
 	private boolean existeContacto(Contacto contacto) {
 		if (this.contactos.isEmpty() || this.contactos == null) {
 			return false;
 		}
 		for (Contacto c : this.contactos) {
-			System.out.println(c);
 			if (c.getNumeroTelefono().equals(contacto.getNumeroTelefono())) {
 				return true;
 			}
@@ -45,9 +53,9 @@ public class PerfilUsuario extends Persona {
 		return false;
 	}
 
-	private void editarContacto(Contacto contacto) {
+	public void editarContacto(Contacto contacto, String numero) {
 		for (Contacto c : this.contactos) {
-			if (c.getNumeroTelefono().equals(contacto.getNumeroTelefono())) {
+			if (c.getNumeroTelefono().equals(numero)) {
 				c.setNombre(contacto.getNombre());
 				c.setApellido(contacto.getApellido());
 				c.setCorreoElectronico(contacto.getCorreoElectronico());
@@ -87,6 +95,15 @@ public class PerfilUsuario extends Persona {
 		}
 		return contactosPorApellido;
     }
+
+	public Contacto obtenerContactoPorNumero(String numero) {
+		for (Contacto c : this.contactos) {
+			if (c.getNumeroTelefono().equals(numero)) {
+				return c;
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public String toString() {

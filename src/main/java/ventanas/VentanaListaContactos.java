@@ -23,11 +23,11 @@ public class VentanaListaContactos extends VentanaGeneral implements ActionListe
     private JButton botonEditar;
     private JButton botonBorrar;
     private JTable tabla;
-    private JButton botonOk;
+    private JButton botonVolver;
+    private JButton botonAnadir;
 
     public VentanaListaContactos(Controlador controlador, VentanaPrincipal ventanaPrincipal) {
         super("Lista de contactos");
-        super.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.VentanaPrincipal = ventanaPrincipal;
         this.controlador = controlador;
         this.setLayout(new BorderLayout());
@@ -45,7 +45,7 @@ public class VentanaListaContactos extends VentanaGeneral implements ActionListe
         panelCentral.setLayout(new BoxLayout(panelCentral, BoxLayout.Y_AXIS));
         this.generarPanelBusqueda(panelCentral);
         this.generarDatosEnTabla(panelCentral);
-        this.generarBotonOk(panelCentral);
+        this.generarBotonesInferiores(panelCentral);
     
         this.add(panelCentral, BorderLayout.CENTER); // Agrega el panel central al centro
     }
@@ -89,7 +89,7 @@ public class VentanaListaContactos extends VentanaGeneral implements ActionListe
         JPanel panel = (JPanel) items[1];
         tabla.setModel(this.generarModeloTabla());
 
-        ButtonEditor buttonEditor = new ButtonEditor(tabla, controlador);
+        ButtonEditor buttonEditor = new ButtonEditor(tabla, controlador, this);
         tabla.getColumn("Editar").setCellRenderer(buttonEditor);
         tabla.getColumn("Editar").setCellEditor(buttonEditor);
         tabla.getColumn("Borrar").setCellRenderer(buttonEditor);
@@ -130,16 +130,23 @@ public class VentanaListaContactos extends VentanaGeneral implements ActionListe
         }
     }
 
-    private void generarBotonOk(JPanel panelCentral) {
-        this.botonOk = super.generarBoton("Ok", 100, 20, 100, 30);
+    private void generarBotonesInferiores(JPanel panelCentral) {
+        this.botonVolver = super.generarBoton("Volver", 100, 20, 100, 30);
+        this.botonAnadir = new JButton("Añadir contacto"); // Crea el nuevo botón
+        this.botonAnadir.addActionListener(this); // Añade un ActionListener al nuevo botón
+    
         Box box = Box.createHorizontalBox();
         box.add(Box.createHorizontalGlue());
-        box.add(botonOk);
+        box.add(botonVolver);
+        box.add(Box.createRigidArea(new Dimension(100, 0))); // Añade un espacio entre los botones
+        box.add(this.botonAnadir); // Añade el nuevo botón a la caja
         box.add(Box.createHorizontalGlue());
+    
         panelCentral.add(Box.createVerticalGlue());
         panelCentral.add(box);
         panelCentral.add(Box.createVerticalGlue());
-        this.botonOk.addActionListener(this);
+    
+        this.botonVolver.addActionListener(this);
     }
 
     public void setVisible(boolean b) {
@@ -148,13 +155,16 @@ public class VentanaListaContactos extends VentanaGeneral implements ActionListe
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == this.botonOk) {
-            this.setVisible(false);
-            this.VentanaPrincipal.setVisible(true);
-        }
         if (e.getSource() == this.botonBuscar) {
             String texto = this.inputBuscar.getText();
             this.buscarContacto(texto);
+        }
+        if (e.getSource() == this.botonAnadir) {
+            new VentanaAnadirEditarContacto(null, controlador, this);
+        }
+        if (e.getSource() == this.botonVolver) {
+            this.setVisible(false);
+            this.VentanaPrincipal.setVisible(true);
         }
     }
 
