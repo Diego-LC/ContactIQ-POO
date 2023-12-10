@@ -11,4 +11,6 @@
 /target/classes/ventanas/VentanaGeneral.class
 /target/classes/ventanas/VentanaListaContactos.class
 /target/classes/ventanas/VentanaPrincipal.class
-/target/**//target/classes/
+/target/*
+/target/classes/ventanas/VentanaAnadirEditarContacto.class
+/target/classes/ventanas/VentanaConfirmacionBorrado.class
