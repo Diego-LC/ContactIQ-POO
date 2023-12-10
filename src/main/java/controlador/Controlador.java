@@ -1,5 +1,6 @@
 package controlador;
 
+import datos.GestorDeDatos;
 import model.Contacto;
 import model.PerfilUsuario;
 import ventanas.VentanaPrincipal;
@@ -8,30 +9,47 @@ public class Controlador {
 
 	private PerfilUsuario usuario;
 
-	public void mostrarMenuPrincipal() {
-		new VentanaPrincipal(this);
+	public Controlador() {
+		this.usuario = this.importarContactos();
+	}
+	public PerfilUsuario getPerfilUsuario() {
+		return this.usuario;
 	}
 
-	public void exportarContactos() {
-		throw new UnsupportedOperationException();
+	public void mostrarMenuPrincipal() {
+		new VentanaPrincipal(this);
+		this.exportarContactos(usuario);
 	}
 
 	public PerfilUsuario importarContactos() {
-		PerfilUsuario usuario = new PerfilUsuario("nombre", "apellido", "email", "+569 12345678");
-		Contacto contacto = new Contacto("nombre", "apellido", "email", "+569 12345678");
-		Contacto contacto2 = new Contacto("nombre2", "apellido2", "email2", "+569 23456789");
-		usuario.setContacto(contacto);
-		usuario.setContacto(contacto2);
-		this.usuario = usuario;
+		GestorDeDatos gestor = new GestorDeDatos();
+		PerfilUsuario usuario = gestor.importarDatosPerfilUsuario("perfilUsuario.csv");
+		gestor.importarDatosContactos("contactos.csv", usuario);
 		return usuario;
 	}
 
-	private boolean borrarArchivoContactos() {
-		throw new UnsupportedOperationException();
+	public void exportarContactos(PerfilUsuario usuario) {
+		GestorDeDatos gestor = new GestorDeDatos();
+		this.borrarArchivoContactos(gestor);
+		gestor.exportarDato("Nombre,Apellido,Correo,Numero teléfono", "perfilUsuario.csv");
+		gestor.exportarDato(usuario, "perfilUsuario.csv");
+		gestor.exportarDato("Nombre,Apellido,Correo,Numero teléfono,Es contacto favorito", "contactos.csv");
+		for (Contacto contacto : usuario.getContactos()) {
+			gestor.exportarDato(contacto, "contactos.csv");
+		}
 	}
 
-	private void generarQr() {
-		throw new UnsupportedOperationException();
+	private boolean borrarArchivoContactos(GestorDeDatos gestor) {
+		return gestor.borrarDatosArchivo("contactos.csv") && gestor.borrarDatosArchivo("perfilUsuario.csv");
 	}
+
+	public void generarQr() {
+		GestorDeDatos gestor = new GestorDeDatos();
+		gestor.generarQr(this.usuario.toString(), "qr.png");
+	}
+	public void exportarContactosAExcel() {
+	}
+    public void importarContactosDesdeExcel() {
+    }
 
 }
