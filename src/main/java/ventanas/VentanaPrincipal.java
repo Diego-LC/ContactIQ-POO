@@ -1,6 +1,7 @@
 package ventanas;
 
 import controlador.Controlador;
+import model.PerfilUsuario;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 public class VentanaPrincipal extends VentanaGeneral implements ActionListener {
     private Controlador controlador;
     private JButton botonMostrarContactos;
+    private JButton botonMostrarFavoritos;
     private JButton botonConfiguracion;
     private JButton botonMostrarAyuda;
     private JButton botonSalir;
@@ -24,25 +26,32 @@ public class VentanaPrincipal extends VentanaGeneral implements ActionListener {
     private void generarElementos() {
         super.generarJLabelEncabezado(this, "Bienvenido a Contact-IQ", 100, 20, 300, 30);
         this.generarBotonMostrarContactos();
+        this.generarBotonMostrarContactosFavoritos();
         this.generarBotonMostrarConfiguracion();
         this.generarBotonMostrarAyuda();
         this.generarBotonSalir();
     }
 
-    private void generarBotonMostrarContactos() {
+    private void generarBotonMostrarContactosFavoritos() {
         this.botonMostrarContactos = super.generarBoton("Mostrar lista de contactos", 100, 70, 300, 50);
         this.add(this.botonMostrarContactos);
         this.botonMostrarContactos.addActionListener(this);
     }
 
+    private void generarBotonMostrarContactos() {
+        this.botonMostrarFavoritos = super.generarBoton("Mostrar lista de favoritos", 100, 130, 300, 50);
+        this.add(this.botonMostrarFavoritos);
+        this.botonMostrarFavoritos.addActionListener(this);
+    }
+
     private void generarBotonMostrarConfiguracion() {
-        this.botonConfiguracion = super.generarBoton("Configuración", 100, 130, 300, 50);
+        this.botonConfiguracion = super.generarBoton("Configuración", 100, 190, 300, 50);
         this.add(this.botonConfiguracion);
         this.botonConfiguracion.addActionListener(this);
     }
 
     private void generarBotonMostrarAyuda() {
-        this.botonMostrarAyuda = super.generarBoton("Ayuda", 100, 190, 300, 50);
+        this.botonMostrarAyuda = super.generarBoton("Ayuda", 100, 250, 300, 50);
         this.add(botonMostrarAyuda);
         this.botonMostrarAyuda.addActionListener(this);
     }
@@ -57,16 +66,20 @@ public class VentanaPrincipal extends VentanaGeneral implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.botonMostrarContactos) {
             // Abre una nueva ventana para mostrar los contactos
-            new VentanaListaContactos(this.controlador, this);
+            new VentanaListaContactos(this.controlador, this, false);
+            this.setVisible(false);
+        }
+
+        if (e.getSource() == this.botonMostrarFavoritos) {
+            // Abre una nueva ventana para mostrar los contactos
+            new VentanaListaContactos(this.controlador, this, true);
             this.setVisible(false);
         }
 
         if (e.getSource() == this.botonConfiguracion) {
-            // Crear una nueva instancia de VentanaAgregarCafe y mostrarla
-            //VentanaAgregarCafe ventanaAgregarCafe = new VentanaAgregarCafe(VentanaPrincipal.this, this.controlador);
-            //ventanaAgregarCafe.setVisible(true);
-            // Opcional: ocultar la ventana principal
-            //setVisible(false);
+            // Abre una nueva ventana para mostrar los contactos
+            new VentanaConfiguracion(this.controlador, this);
+            this.setVisible(false);
         }
 
         if (e.getSource() == this.botonMostrarAyuda) {
@@ -80,7 +93,7 @@ public class VentanaPrincipal extends VentanaGeneral implements ActionListener {
         if (e.getSource() == this.botonSalir){
             // Cierra la ventana
             System.exit(0);
-            //controlador.guardarDatos();
+            controlador.exportarContactos(controlador.getPerfilUsuario());
         }
     }
 }

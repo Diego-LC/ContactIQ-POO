@@ -12,6 +12,7 @@ public class Persona {
 		this.correoElectronico = correoElectronico;
 		this.numeroTelefono = numeroTelefono;
 	}
+	public Persona(){}
 
 	public String getNombre() {
 		return this.nombre;

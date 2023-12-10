@@ -10,7 +10,12 @@ public class PerfilUsuario extends Persona {
 	}
 
 
-	public ArrayList<Contacto> getContactos() {
+	public PerfilUsuario() {
+		this.contactos = new ArrayList<Contacto>();
+    }
+
+
+    public ArrayList<Contacto> getContactos() {
 		return this.contactos;
 	}
 
@@ -107,6 +112,11 @@ public class PerfilUsuario extends Persona {
 
 	@Override
 	public String toString() {
-		return this.getNombre() + "," + this.getApellido() + "," + this.getCorreoElectronico() + "," + this.getNumeroTelefono();
+		// verificar si los atributos son null, si lo son, devolver un string vacío
+		String nombre = (this.getNombre() == null) ? "" : this.getNombre();
+		String apellido = (this.getApellido() == null) ? "" : this.getApellido();
+		String correoElectronico = (this.getCorreoElectronico() == null) ? "" : this.getCorreoElectronico();
+		String numeroTelefono = (this.getNumeroTelefono() == null) ? "" : this.getNumeroTelefono();
+		return nombre + "," + apellido + "," + correoElectronico + "," + numeroTelefono;
 	}
 }
