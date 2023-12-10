@@ -17,24 +17,27 @@ import java.util.ArrayList;
 public class VentanaListaContactos extends VentanaGeneral implements ActionListener {
     private final VentanaPrincipal VentanaPrincipal;
     private final Controlador controlador;
+    private boolean contFavoritos;
     private JFormattedTextField inputBuscar;
     private JComboBox listaDesplegableBuscarPor;
     private JButton botonBuscar;
-    private JButton botonEditar;
-    private JButton botonBorrar;
     private JTable tabla;
     private JButton botonVolver;
     private JButton botonAnadir;
 
-    public VentanaListaContactos(Controlador controlador, VentanaPrincipal ventanaPrincipal) {
+    public VentanaListaContactos(Controlador controlador, VentanaPrincipal ventanaPrincipal, boolean favoritos) {
         super("Lista de contactos");
         this.VentanaPrincipal = ventanaPrincipal;
         this.controlador = controlador;
+        this.contFavoritos = favoritos;
         this.setLayout(new BorderLayout());
         this.generarElementos();
         //this.setSize(500,400);
         this.pack();
         this.setMinimumSize(new Dimension(700, 400));
+    }
+
+    private void contFavoritos(boolean favoritos) {
     }
 
     private void generarElementos() {
@@ -111,7 +114,10 @@ public class VentanaListaContactos extends VentanaGeneral implements ActionListe
     }
 
     private void añadirFilas(DefaultTableModel modelo) {
-        ArrayList<Contacto> contactos = this.controlador.importarContactos().getContactos();
+        ArrayList<Contacto> contactos = this.controlador.getPerfilUsuario().getContactos();
+        if (this.contFavoritos) {
+            contactos = filtrarContactosFavoritos(contactos);
+        }
         //System.out.println(contactos.toString());
         try{
             for (Contacto contacto : contactos) {
@@ -126,8 +132,18 @@ public class VentanaListaContactos extends VentanaGeneral implements ActionListe
                 }
             }
         }catch (Exception e){
-            System.err.println(e.getMessage() + " : " + e.getStackTrace());
+            System.err.println("Error l129: " + e.getMessage() + " : " + e.getStackTrace());
         }
+    }
+
+    private ArrayList<Contacto> filtrarContactosFavoritos(ArrayList<Contacto> contactos) {
+        ArrayList<Contacto> contactosFavoritos = new ArrayList<>();
+        for (Contacto contacto : contactos) {
+            if (contacto.getEsContactoFavorito()) {
+                contactosFavoritos.add(contacto);
+            }
+        }
+        return contactosFavoritos;
     }
 
     private void generarBotonesInferiores(JPanel panelCentral) {
@@ -149,10 +165,6 @@ public class VentanaListaContactos extends VentanaGeneral implements ActionListe
         this.botonVolver.addActionListener(this);
     }
 
-    public void setVisible(boolean b) {
-        super.setVisible(b);
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.botonBuscar) {
@@ -160,7 +172,9 @@ public class VentanaListaContactos extends VentanaGeneral implements ActionListe
             this.buscarContacto(texto);
         }
         if (e.getSource() == this.botonAnadir) {
-            new VentanaAnadirEditarContacto(null, controlador, this);
+            JFrame ventanaAnadir = new VentanaAnadirEditarContacto("Añadir nuevo contacto", null, controlador, this, false);
+            ventanaAnadir.setVisible(true);
+            ventanaAnadir.setLocationRelativeTo(this);
         }
         if (e.getSource() == this.botonVolver) {
             this.setVisible(false);
@@ -194,7 +208,7 @@ public class VentanaListaContactos extends VentanaGeneral implements ActionListe
 
     private ArrayList<Contacto> obtenerContactosSegunCampo(String texto){
         ArrayList<Contacto> contactos = new ArrayList<>();
-        PerfilUsuario usuario = this.controlador.importarContactos();
+        PerfilUsuario usuario = this.controlador.getPerfilUsuario();
         switch (this.listaDesplegableBuscarPor.getSelectedIndex()){
             case 0:
                 contactos = usuario.obtenerContactosPorNombre(texto);
@@ -207,5 +221,12 @@ public class VentanaListaContactos extends VentanaGeneral implements ActionListe
                 break;
         }
         return contactos;
+    }
+
+    public void actualizarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
+        modelo.setRowCount(0);
+        this.añadirFilas(modelo);
+        this.controlador.exportarContactos(this.controlador.getPerfilUsuario());
     }
 }

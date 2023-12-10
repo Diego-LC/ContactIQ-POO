@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import controlador.Controlador;
+import model.PerfilUsuario;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -35,7 +36,9 @@ public class VentanaConfirmacionBorrado extends JFrame implements ActionListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        controlador.importarContactos().eliminarContacto(numero);
+        PerfilUsuario perfilUsuario = this.controlador.getPerfilUsuario();
+        perfilUsuario.eliminarContacto(numero);
+        controlador.exportarContactos(perfilUsuario);
         JOptionPane.showMessageDialog(this, "Contacto borrado");
         this.dispose();
     }
