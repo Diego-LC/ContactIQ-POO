@@ -9,5 +9,9 @@
         <module name="ContactIQ" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Automotora" target="1.8" />
+      <module name="ContactIQ-POO" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
