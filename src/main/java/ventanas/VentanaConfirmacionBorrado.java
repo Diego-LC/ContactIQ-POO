@@ -38,7 +38,7 @@ public class VentanaConfirmacionBorrado extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent e) {
         PerfilUsuario perfilUsuario = this.controlador.getPerfilUsuario();
         perfilUsuario.eliminarContacto(numero);
-        controlador.exportarContactos(perfilUsuario);
+        controlador.exportarDatosCSV(perfilUsuario);
         JOptionPane.showMessageDialog(this, "Contacto borrado");
         this.dispose();
     }

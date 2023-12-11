@@ -1,7 +1,6 @@
 package ventanas;
 
 import controlador.Controlador;
-import model.PerfilUsuario;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -93,7 +92,7 @@ public class VentanaPrincipal extends VentanaGeneral implements ActionListener {
         if (e.getSource() == this.botonSalir){
             // Cierra la ventana
             System.exit(0);
-            controlador.exportarContactos(controlador.getPerfilUsuario());
+            controlador.exportarDatosCSV(controlador.getPerfilUsuario());
         }
     }
 }

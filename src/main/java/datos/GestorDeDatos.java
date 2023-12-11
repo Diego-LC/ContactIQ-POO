@@ -31,7 +31,7 @@ import org.apache.commons.csv.CSVRecord;
 
 public class GestorDeDatos {
 
-	public PerfilUsuario importarDatosContactos(String direccionArchivoContactos, PerfilUsuario perfilUsuario) {
+	public void importarDatosContactos(String direccionArchivoContactos, PerfilUsuario perfilUsuario) {
 		String textoArchivo = "";
 		int contador = 0;
         try {
@@ -54,7 +54,6 @@ public class GestorDeDatos {
         } catch (Exception e) {
             System.out.println("error al leer el archivo " + direccionArchivoContactos+ " : " + e.getMessage());
         }
-        return perfilUsuario;
 	}
 
 	public PerfilUsuario importarDatosPerfilUsuario(String direccionArchivo) {

@@ -10,7 +10,7 @@ public class Controlador {
 	private PerfilUsuario usuario;
 
 	public Controlador() {
-		this.usuario = this.importarContactos();
+		this.usuario = this.importarDatos();
 	}
 	public PerfilUsuario getPerfilUsuario() {
 		return this.usuario;
@@ -18,17 +18,17 @@ public class Controlador {
 
 	public void mostrarMenuPrincipal() {
 		new VentanaPrincipal(this);
-		this.exportarContactos(usuario);
+		this.exportarDatosCSV(usuario);
 	}
 
-	public PerfilUsuario importarContactos() {
+	public PerfilUsuario importarDatos() {
 		GestorDeDatos gestor = new GestorDeDatos();
 		PerfilUsuario usuario = gestor.importarDatosPerfilUsuario("perfilUsuario.csv");
 		gestor.importarDatosContactos("contactos.csv", usuario);
 		return usuario;
 	}
 
-	public void exportarContactos(PerfilUsuario usuario) {
+	public void exportarDatosCSV(PerfilUsuario usuario) {
 		GestorDeDatos gestor = new GestorDeDatos();
 		this.borrarArchivoContactos(gestor);
 		gestor.exportarDato("Nombre,Apellido,Correo,Numero teléfono", "perfilUsuario.csv");

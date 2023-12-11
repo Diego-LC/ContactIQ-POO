@@ -227,6 +227,6 @@ public class VentanaListaContactos extends VentanaGeneral implements ActionListe
         DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
         modelo.setRowCount(0);
         this.añadirFilas(modelo);
-        this.controlador.exportarContactos(this.controlador.getPerfilUsuario());
+        this.controlador.exportarDatosCSV(this.controlador.getPerfilUsuario());
     }
 }
