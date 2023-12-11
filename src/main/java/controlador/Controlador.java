@@ -39,7 +39,7 @@ public class Controlador {
 		}
 	}
 
-	private boolean borrarArchivoContactos(GestorDeDatos gestor) {
+	boolean borrarArchivoContactos(GestorDeDatos gestor) {
 		return gestor.borrarDatosArchivo("contactos.csv") && gestor.borrarDatosArchivo("perfilUsuario.csv");
 	}
 
